@@ -1,0 +1,7 @@
+{
+  "appId": "bo.com.studio94.app",
+  "appName": "Studio94",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}

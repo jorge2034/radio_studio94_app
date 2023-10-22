@@ -1,0 +1,12 @@
+{
+  "name": "bo.com.studio94",
+  "version": "0.0.1",
+  "description": "Radio online Studio94",
+  "author": "Jorge <jorge2034@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "@capacitor/cli": "^2.5.0",
+    "@capacitor/core": "^2.5.0",
+    "deps": "^1.0.0"
+  }
+}
