@@ -5,7 +5,7 @@
         <div class="details">
           <div class="track-art">
             <img
-              :class="`track-art image ${isPlaying?'rotate2':''}`"
+              :class="`track-art image ${isPlaying ? 'rotate2' : ''}`"
               alt="STUDIO94 logo"
               src="~assets/logo.png"
               style="width: 98%; height: 98%"
@@ -38,22 +38,87 @@
         </div>
 
         <div class="buttons text-center">
+          <div class="playpause-track" @click="apagarDialog()">
+            <q-icon size="2rem" name="snooze" />
+          </div>
           <div v-if="!isPlaying" class="playpause-track" @click="playTrack()">
-            <q-icon size="8rem" name="play_circle_outline" />
+            <q-icon size="6rem" name="play_circle_outline" />
           </div>
           <div v-else class="playpause-track" @click="pauseTrack()">
-            <q-icon size="8rem" name="pause_circle_outline" />
+            <q-icon size="6rem" name="pause_circle_outline" />
+          </div>
+          <div class="playpause-track" @click="volumenDialog()">
+            <q-icon size="2rem" name="volume_up" />
           </div>
         </div>
-
-
       </div>
     </div>
+
+    <q-dialog v-model="volumen" :backdrop-filter="'grayscale(100%)'">
+      <q-card style="width: 300px" class="q-px-sm q-pb-md">
+        <q-card-section>
+          <div class="text-h6">Volúmen</div>
+        </q-card-section>
+
+        <q-item dense>
+          <q-item-section avatar>
+            <q-icon name="volume_up" />
+          </q-item-section>
+          <q-item-section>
+            <q-slider
+              color="#FF00AB"
+              v-model="slideVol"
+              :step="5"
+              :min="0"
+              :max="100"
+              thumb-size="25px"
+              label
+              :label-value="slideVol + '%'"
+              label-always
+            />
+          </q-item-section>
+        </q-item>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="apagar" :backdrop-filter="'grayscale(100%)'">
+      <q-card style="width: 300px" class="q-px-sm q-pb-md">
+        <q-card-section>
+          <div class="text-h6">Apagado automático</div>
+        </q-card-section>
+        <q-item dense>
+          <q-item-section avatar>
+            <q-icon name="alarm" />
+          </q-item-section>
+          <q-item-section>
+            <q-slider
+              class="mx-5"
+              color="#FF0024"
+              v-model="slideAlarm"
+              :step="1"
+              :min="0"
+              :max="120"
+              thumb-size="25px"
+              label
+              :label-value="slideAlarm + 'min'"
+              label-always
+            />
+          </q-item-section>
+        </q-item>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancelar" color="primary" v-close-popup />
+          <q-btn flat label="Iniciar" color="primary" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
+import axios from "axios";
+
+// import puppeteer from "puppeteer";
 let curr_track = document.createElement("audio");
 let track_art = document.querySelector(".track-art");
 export default {
@@ -63,10 +128,23 @@ export default {
       nombre: "JORGE ARCE",
       now_playing: "Sonando",
       isPlaying: false,
+      volumen: false,
+      apagar: false,
+
+      slide: 1,
+      lorem:
+        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!",
+
+      stars: 3,
+
+      slideVol: 100,
+      slideAlarm: 1,
     };
   },
   created() {
     this.loadTrack();
+    // this.fetchSong();
+    // this.puppeteer();
   },
   methods: {
     loadTrack() {
@@ -74,20 +152,59 @@ export default {
       curr_track.src = "https://ssl.aloncast.com:1582/;"; // music_list[track_index].music;
       curr_track.load();
 
-      console.log(
-        "🚀 ~ file: IndexPage.vue:68 ~ loadTrack ~ curr_track:",
-        curr_track
-      );
+      // Or import puppeteer from 'puppeteer-core';
+
+      // axios
+      //   .get("https://ssl.aloncast.com:1582/7.html", {
+      //     // headers: {
+      //     //   "Access-Control-Allow-Origin": "*",
+      //     // },
+      //   })
+      //   .then((res) => console.log(res.data))
+      //   .catch((err) => console.error(err));
     },
     playTrack() {
       curr_track.play();
       this.isPlaying = true;
+      setTimeout(() => {
+        this.isPlaying = false;
+        curr_track.pause();
+      }, 5000);
       // wave.classList.add('loader');
     },
     pauseTrack() {
       curr_track.pause();
       this.isPlaying = false;
       // wave.classList.add('loader');
+    },
+    fetchSong() {
+      fetch("http://51.89.173.53:8053/7.html", {
+        headers: {
+          // "Access-Control-Allow-Origin": "*",
+        },
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          const songInfo = this.extractSong(data);
+          this.nombre = songInfo;
+        })
+        .catch((error) => console.error("Error:", error));
+    },
+    extractSong(data) {
+      // Busca la parte que contiene la información de la canción
+      const match = data.match(/Now On Air: (.+) - (.+)/);
+      if (match && match.length > 2) {
+        return `${match[1]} - ${match[2]}`;
+      } else {
+        return "No song information found";
+      }
+    },
+
+    volumenDialog() {
+      this.volumen = true;
+    },
+    apagarDialog() {
+      this.apagar = true;
     },
   },
 };
@@ -96,7 +213,7 @@ export default {
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(to bottom, #FF000E, #FF00B3);
+  background: linear-gradient(to bottom, #ff000e, #ff00b3);
   font-weight: bold;
 }
 .player {
@@ -142,14 +259,13 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom: 30px;
 }
 .active {
   color: black;
 }
 
 .playpause-track {
-  padding: 10px;
+  padding: 15px;
   opacity: 0.8;
   z-index: 1;
   transition: opacity 0.2s;
@@ -350,5 +466,41 @@ body {
   100% {
     --rotate: 360deg;
   }
+}
+#playervol {
+  width: 350px;
+  height: 50px;
+  margin: 20px auto 0px auto;
+}
+
+#volume2 {
+  position: absolute;
+  margin: 0 auto;
+  height: 5px;
+  width: 300px;
+  background: #555;
+  border-radius: 15px;
+
+  /* .ui-slider-range-min {
+    height: 5px;
+    width: 300px;
+    position: absolute;
+    background: #2ecc71;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+  }
+
+  .ui-slider-handle {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background: #fff;
+    position: absolute;
+    margin-left: -8px;
+    margin-top: -8px;
+    cursor: pointer;
+    outline: none;
+  } */
 }
 </style>
