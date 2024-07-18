@@ -15,6 +15,7 @@
         <preference name="android-targetSdkVersion" value="34" />
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/android/LOGO-TRANSPARENTE-3.png" />
         <preference name="AndroidWindowSplashScreenBackground" value="#ffffff" />
+        <preference name="AndroidPersistentFileLocation" value="Compatibility" />
         <icon density="hdpi" src="res/android/LOGO2.png" />
     </platform>
     <platform name="ios">

@@ -44,6 +44,23 @@
               </q-item-label>
             </q-item-section>
           </q-item>
+          <q-item
+            dense
+            v-ripple
+            clickable
+            exact
+            class="absolute-bottom q-mb-lg"
+          >
+            <q-item-section>
+              <a href="https://hostingbol.com" target="_blank">
+                <q-img
+                  class="absolute-bottom"
+                  src="~assets/LOGOHOSTINGBOL.png"
+                  style="height: 55px"
+                ></q-img>
+              </a>
+            </q-item-section>
+          </q-item>
         </q-list>
       </q-scroll-area>
 

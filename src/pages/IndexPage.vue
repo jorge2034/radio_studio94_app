@@ -96,7 +96,7 @@
               color="#FF0024"
               v-model="slideAlarm"
               :step="1"
-              :min="0"
+              :min="1"
               :max="120"
               thumb-size="25px"
               label
@@ -107,7 +107,13 @@
         </q-item>
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
-          <q-btn flat label="Iniciar" color="primary" />
+          <q-btn
+            flat
+            label="Iniciar"
+            color="primary"
+            @click="apagarRadio(slideAlarm)"
+            v-close-popup
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -117,10 +123,12 @@
 <script>
 import { defineComponent } from "vue";
 import axios from "axios";
+import { useQuasar } from "quasar";
 
 // import puppeteer from "puppeteer";
 let curr_track = document.createElement("audio");
 let track_art = document.querySelector(".track-art");
+
 export default {
   name: "IndexPage",
   data() {
@@ -130,12 +138,8 @@ export default {
       isPlaying: false,
       volumen: false,
       apagar: false,
-
+      $q: null,
       slide: 1,
-      lorem:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!",
-
-      stars: 3,
 
       slideVol: 100,
       slideAlarm: 1,
@@ -143,10 +147,34 @@ export default {
   },
   created() {
     this.loadTrack();
+    this.$q = useQuasar();
+
     // this.fetchSong();
     // this.puppeteer();
   },
+  watch: {
+    slideVol(newVal) {
+      this.setVolumen(newVal);
+    },
+  },
   methods: {
+    setVolumen(volumen) {
+      curr_track.volume = volumen / 100;
+      console.log("volumen:", volumen / 100);
+    },
+    apagarRadio(tiempo) {
+      let tiempoMilisegundos = tiempo * 60000;
+      this.$q.notify({
+        message: "Apagado automático",
+        caption: "en " + tiempo + " min",
+        color: "primary",
+      });
+      setTimeout(() => {
+        this.isPlaying = false;
+        curr_track.pause();
+      }, tiempoMilisegundos);
+      console.log("La radio se apagara en:", tiempo);
+    },
     loadTrack() {
       console.log("reproduciendo");
       curr_track.src = "https://ssl.aloncast.com:1582/;"; // music_list[track_index].music;
@@ -166,10 +194,6 @@ export default {
     playTrack() {
       curr_track.play();
       this.isPlaying = true;
-      setTimeout(() => {
-        this.isPlaying = false;
-        curr_track.pause();
-      }, 5000);
       // wave.classList.add('loader');
     },
     pauseTrack() {
@@ -213,6 +237,7 @@ export default {
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background-color: #ff00b3;
   background: linear-gradient(to bottom, #ff000e, #ff00b3);
   font-weight: bold;
 }
