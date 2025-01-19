@@ -71,7 +71,6 @@
               :step="5"
               :min="0"
               :max="100"
-              thumb-size="25px"
               label
               :label-value="slideVol + '%'"
               label-always
@@ -120,11 +119,11 @@
 
     <div id="whatsapp">
       <a
-        href="https://api.whatsapp.com/send?phone=346....302&text=Hola%20,te%20asesoramos%20por
-%20whatsapp%20gestiona%20tu%20compra%20por%20este%20canal."
+        href="https://api.whatsapp.com/send?phone=59162755900&text=Hola%20Studio94,quiero%20pedir%20una%20canción."
         target="_blank"
       >
         <svg
+          id="svg_whatsapp"
           width="80"
           height="80"
           xmlns="http://www.w3.org/2000/svg"
@@ -571,7 +570,7 @@ a {
   bottom: 20px;
   right: 20px;
 }
-svg {
+#svg_whatsapp {
   width: 80px;
   display: inline-block;
   vertical-align: middle;
@@ -587,7 +586,7 @@ path {
   padding: 20px 0;
 }
 #whatsapp a::before {
-  content: "Te asesoramos por whatsapp";
+  content: "Pide tu canción";
   display: inline-block;
   vertical-align: middle;
   padding: 5px 10px;
@@ -598,9 +597,6 @@ path {
   border-radius: 20px;
   filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.4));
   transition: 0.3s ease;
-  opacity: 0;
-}
-#whatsapp:hover a::before {
   opacity: 1;
 }
 </style>

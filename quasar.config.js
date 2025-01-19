@@ -9,7 +9,6 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require("quasar/wrappers");
-const { configure } = require("quasar/wrappers");
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -81,7 +80,6 @@ module.exports = configure(function (/* ctx */) {
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
-
       // vitePlugins: [
       //   [ 'package-name', { ..options.. } ]
       // ]
@@ -149,8 +147,6 @@ module.exports = configure(function (/* ctx */) {
       middlewares: [
         "render", // keep this as last one
       ],
-        "render", // keep this as last one
-      ],
     },
 
     // https://v2.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
@@ -189,7 +185,6 @@ module.exports = configure(function (/* ctx */) {
       inspectPort: 5858,
 
       bundler: "packager", // 'packager' or 'builder'
-      bundler: "packager", // 'packager' or 'builder'
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -207,19 +202,14 @@ module.exports = configure(function (/* ctx */) {
 
         appId: "bo.com.studio94",
       },
-        appId: "bo.com.studio94",
-      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex
     bex: {
       contentScripts: ["my-content-script"],
-      contentScripts: ["my-content-script"],
 
       // extendBexScriptsConf (esbuildConf) {}
       // extendBexManifestJson (json) {}
-    },
-  };
     },
   };
 });
