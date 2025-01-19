@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     redirectToWhatsApp() {
-      const phoneNumber = "59176155280"; // Reemplaza con el número de teléfono deseado
+      const phoneNumber = "59162755900"; // Reemplaza con el número de teléfono deseado
       const message = "Hola!!, Studio94. "; // Mensaje opcional
 
       const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
